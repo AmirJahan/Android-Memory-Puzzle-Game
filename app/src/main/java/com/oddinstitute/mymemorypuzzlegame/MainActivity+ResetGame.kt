@@ -1,11 +1,9 @@
 package com.oddinstitute.mymemorypuzzlegame
 
-fun MainActivity.resetGame ()
-{
+fun MainActivity.resetGame() {
     matchedTiles.clear()
     thisIsSecondTile = false
     gameIsActive = true
-
 
     supportFragmentManager.findFragmentByTag("myGame")?.let {
         supportFragmentManager
@@ -16,8 +14,10 @@ fun MainActivity.resetGame ()
 
     supportFragmentManager
         .beginTransaction()
-        .add(R.id.gameContainer_id,
-             GameFragment.instance(grid),
-             "myGame")
+        .add(
+            R.id.gameContainer_id,
+            GameFragment.instance(grid),
+            "myGame"
+        )
         .commit()
 }

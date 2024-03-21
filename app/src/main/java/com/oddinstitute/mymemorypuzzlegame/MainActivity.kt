@@ -19,26 +19,21 @@ import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity(), GameFragmentListener
-{
+class MainActivity : AppCompatActivity(), GameFragmentListener {
+
     var thisIsSecondTile: Boolean = false
     lateinit var tile1: Tile
     lateinit var tile2: Tile
-    val matchedTiles : ArrayList<Tile> = ArrayList()
+    val matchedTiles: ArrayList<Tile> = ArrayList()
 
     var grid = 8
 
     var gameIsActive = true
 
-
-
-
-    override fun makeTheTiles(): ArrayList<Tile>
-    {
+    override fun makeTheTiles(): ArrayList<Tile> {
         val tilesArr: ArrayList<Tile> = ArrayList()
 
-        for (i in 1..grid * grid)
-        {
+        for (i in 1..grid * grid) {
             var number = i
             if (number > (grid * grid / 2))
                 number -= (grid * grid / 2) // 1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8
@@ -56,71 +51,36 @@ class MainActivity : AppCompatActivity(), GameFragmentListener
         return tilesArr
     }
 
-    override fun tileTapped(tile: Tile, position: Int)
-    {
+    override fun tileTapped(tile: Tile, position: Int) {
         if (tile.tileStatus != TileStatus.HIDDEN || !gameIsActive)
             return
 
         tile.tileStatus = TileStatus.VISIBLE
         tile.updateThisTile()
 
-        if (thisIsSecondTile) // it means, the tile we just cliked,
-        {                       // was the second in this cycle
+        if (thisIsSecondTile) { // it means, the tile we just cliked,
+            // was the second in this cycle
             tile2 = tile
 
             // here, we should check
             gameIsActive = false
-            compareTiles ()
+            compareTiles()
 
             thisIsSecondTile = false
-        }
-        else // this was the first tile
-        {
+        } else { // this was the first tile
             tile1 = tile
             thisIsSecondTile = true
         }
-
-
-
-
-
     }
 
-
-
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        resetGame ()
+        resetGame()
 
         findViewById<Button>(R.id.resetButton_id).setOnClickListener {
-            resetGame ()
-
+            resetGame()
         }
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

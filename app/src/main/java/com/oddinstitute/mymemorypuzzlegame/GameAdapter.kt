@@ -9,28 +9,28 @@ import android.widget.TextView
 import androidx.core.view.setMargins
 import androidx.recyclerview.widget.RecyclerView
 
-
 // we have the root view, to THAT, we attach a text view
-class CardViewHolder (val rootView: SquareFrameLayout) :
-        RecyclerView.ViewHolder(rootView)
+class CardViewHolder(val rootView: SquareFrameLayout) :
+    RecyclerView.ViewHolder(rootView)
 
+class GameAdapter(
+    val tiles: ArrayList<Tile>,
+    val listener: GameFragmentListener
+) : RecyclerView.Adapter<CardViewHolder>() {
 
-class GameAdapter(val tiles: ArrayList<Tile>,
-                 val listener: GameFragmentListener) : RecyclerView.Adapter <CardViewHolder>()
-{
     lateinit var tileContainer: FrameLayout
-
 
     override fun getItemCount(): Int = tiles.count()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val tileSqF = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_layout,
-                     parent,
-                     false) as SquareFrameLayout
+            .inflate(
+                R.layout.card_layout,
+                parent,
+                false
+            ) as SquareFrameLayout
 
-        val cardVH = CardViewHolder (tileSqF)
+        val cardVH = CardViewHolder(tileSqF)
 
         // DOES THIS MAKE SENSE?
         tileContainer = cardVH.itemView.findViewById(R.id.tileContainer_id)
@@ -38,14 +38,15 @@ class GameAdapter(val tiles: ArrayList<Tile>,
         return cardVH
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         tileContainer.setBackgroundColor(Color.DKGRAY)
 
         val thisTile = tiles[position] // 0 ---> 15
 
-        val param = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                             ViewGroup.LayoutParams.MATCH_PARENT)
+        val param = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
 
         thisTile.layoutParams = param
         param.setMargins(5)
@@ -55,7 +56,6 @@ class GameAdapter(val tiles: ArrayList<Tile>,
         tileContainer.addView(thisTile)
 
         tileContainer.setOnClickListener {
-
             listener.tileTapped(thisTile, position)
         }
     }
